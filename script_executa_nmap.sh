@@ -19,21 +19,14 @@ function LerLinhas() {
   while read -r line; do
   #for i in $(cat nmap.log | grep -v "Host\|closed\|STATE" | sed '1d;$d'); do
 
-    f=$(echo $line | awk -F " " '{print $5'})
-    #echo -e "antes de if\n"$i"\n"
+    f=$(echo $line | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}") 
     
-    if [[ $f =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then #fazer match as linhas recebidas com formato IP ()
-      #echo -e $f"\n"
-      IPs+=($f)
-      #echo -e "portas "$(echo $i | cut -d '/' -f1)"\n"
-
-    else ### caso o $5 imprima um hostname
-      x=$(echo $line | awk 'BEGIN{FS="[()]"}{print $2}') ##usar o awk para imprimir o valor entre parenteses, quando é hostname o IP esta entre parenteses
-      IPs+=($x)
-      #echo -e $x"\n"
+    if [ ! -z $f ]; then #guardar valor de IP no array, quando f não vazio = tem IP
+      IPs+=($f) #por valor de f (IP) no array IPs (nao é preciso o If)
     fi
 
-    ports=$(echo $line | grep '/' | cut -d '/' -f1) #na linha dos protocolos fazer match com '/' e imprimir o primeiro field que tem a porta TCP
+    #na linha dos protocolos fazer match com '/' e imprimir o primeiro field que tem a porta TCP
+    ports=$(echo $line | grep '/' | cut -d '/' -f1) 
     #echo -e "Portas xxxxx "$ports
     
     if [[ $ports == [0-9]* ]]; then #se variavel ports 
@@ -124,7 +117,6 @@ printf "Processando..."
 
 LerLinhas $resposta_IP
 #printf "$OutPut"
-#read -p "asdasd"
 while true; do 
   clear
   printf "
@@ -139,7 +131,6 @@ while true; do
 
   "
   read -p "Introduza a opção [0-3] > " resposta
-  #echo -e "\nOpção introduzida foi ..."$REPLY
 
   case $resposta in 
     1)

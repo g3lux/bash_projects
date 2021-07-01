@@ -399,23 +399,23 @@ while true; do
 	diskUsage=$(df | grep "sda[1-9]" | awk -F ' ' '{print $3}')
 	diskUsageArray+=($diskUsage)
 	linhas=20
-	if ((${#cpuUsageArray[@]} >= 40)); then
-		#se ja tem 40 entradas no array, criar offset
+	if ((${#cpuUsageArray[@]} >= 30)); then
+		#se ja tem 30 entradas no array, criar offset
 		#apagar o primeiro resultado (index 0), e shift
 		cpuUsageArray=("${cpuUsageArray[@]:1}") 
 	fi
-	if ((${#ramUsageArray[@]} >= 40)); then
-		#se ja tem 40 entradas no array, criar offset
+	if ((${#ramUsageArray[@]} >= 30)); then
+		#se ja tem 30 entradas no array, criar offset
 		#apagar o primeiro resultado (index 0), e shift
 		ramUsageArray=("${ramUsageArray[@]:1}") 
 	fi
-	if ((${#diskUsageArray[@]} >= 40)); then
-		#se ja tem 40 entradas no array, criar offset
+	if ((${#diskUsageArray[@]} >= 30)); then
+		#se ja tem 30 entradas no array, criar offset
 		#apagar o primeiro resultado (index 0), e shift
 		diskUsageArray=("${diskUsageArray[@]:1}") 
 	fi
 	
-	#Se houve interrupcao ou a primeira vez a executar
+	#Se a primeira vez a executar
 	#ainda não tem resposta, mostrar menu e guardar 
 	if [[ ! $resposta ]]; then
 		MostrarMenu

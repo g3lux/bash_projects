@@ -18,43 +18,16 @@ function tratarInterrupcao() {
 	TOTALMEDIADISCO=0
 	for val in "${cpuUsageArray[@]}"; do
 		(( TOTALMEDIACPU+=$val ))
-		minCPUusage=${cpuUsageArray[0]}
-		maxCPUusage=${cpuUsageArray[0]}
-		if (( $val > $maxCPUusage )); then
-			maxCPUusage=$val
-		fi
-		
-		if (( $val < $minCPUusage )); then
-			minCPUusage=$val
-		fi
 	done	
 	TOTALMEDIACPU=$(( TOTALMEDIACPU / ${#cpuUsageArray[@]} ))
 
 	for val in "${ramUsageArray[@]}"; do
 		(( TOTALMEDIARAM+=$val ))
-		minRAMusage=${ramUsageArray[0]}
-		maxRAMusage=${ramUsageArray[0]}
-		if (( $val > $maxRAMusage )); then
-			maxRAMpercent=$(( $val * 100 / $maxRAM))
-		fi
-		
-		if (( $val < $minRAMusage )); then
-			minRAMpercent=$(( $val * 100 / $maxRAM))
-		fi
 	done
 	TOTALMEDIARAM=$(( TOTALMEDIARAM / ${#ramUsageArray[@]} ))
 	TOTALMEDIARAM=$(( TOTALMEDIARAM * 100 / maxRAM))
 
 	for val in "${diskUsageArray[@]}"; do
-		minDISKusage=${diskUsageArray[0]}
-		maxDISKusage=${diskUsageArray[0]}
-		if (( $val > $maxDISKusage )); then
-			maxDISKusage=$val
-		fi
-		
-		if (( $val < $minDISKusage )); then
-			minDISKusage=$val
-		fi
 		(( TOTALMEDIADISCO+=$val ))
 	done
 	TOTALMEDIADISCO=$(( TOTALMEDIADISCO / ${#diskUsageArray[@]} ))
